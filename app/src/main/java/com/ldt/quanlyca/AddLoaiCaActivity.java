@@ -3,6 +3,8 @@ package com.ldt.quanlyca;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,6 +42,27 @@ public class AddLoaiCaActivity extends AppCompatActivity {
                 ClipData clipData = clipBoard.getPrimaryClip();
                 ClipData.Item item = clipData.getItemAt(0);
                 edtUrl.setText(item.getText().toString());
+            }
+        });
+
+        edtUrl.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Glide.with(AddLoaiCaActivity.this)
+                        .load(edtUrl.getText().toString())
+                        .placeholder(R.mipmap.ic_launcher) // ảnh mặt định
+                        .error(R.mipmap.ic_launcher) // ảnh khi lỗi
+                        .into(image);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
 
@@ -117,7 +141,7 @@ public class AddLoaiCaActivity extends AppCompatActivity {
         edtMauSac = findViewById(R.id.edtMauSac);
         edtDacTinh = findViewById(R.id.edtDacTinh);
         btnPaste = findViewById(R.id.btnPaste);
-        btnBrowse = findViewById(R.id.btnBrowse);
+//        btnBrowse = findViewById(R.id.btnBrowse);
         btnClear = findViewById(R.id.btnClear);
         image = findViewById(R.id.image);
         edtUrl = findViewById(R.id.edtUrl);
